@@ -4,8 +4,9 @@
   "description": "My first project with graphql",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemode app.js"
+    "dev": "nodemon app.js"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mohsen-ziadi/Node.js--GraphQL-project.git"
