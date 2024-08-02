@@ -1,6 +1,6 @@
 // ObjectType - Query - mutation
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList } = require("graphql");
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt } = require("graphql");
 
 const courses = [
     { id: 1, title: "java script", price: 0 },
@@ -9,12 +9,29 @@ const courses = [
     { id: 4, title: "MySql", price: 2_300_000 },
 ]
 
+const teachers = [
+    { id: 1, name: "Ali hossein", age: 23 },
+    { id: 2, name: "Meysam", age: 22 },
+    { id: 3, name: "Mohsen", age: 22 },
+    { id: 4, name: "Mehdi", age: 23 },
+]
+
+
 const CourseType = new GraphQLObjectType({
     name: "Course",
     fields: () => ({
         id: { type: GraphQLString },
         title: { type: GraphQLString },
         price: { type: GraphQLString },
+    })
+})
+
+const TeacherType = new GraphQLObjectType({
+    name: "Teacher",
+    fields: () => ({
+        id: { type: GraphQLString },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
     })
 })
 
@@ -26,9 +43,16 @@ const RootQuery = new GraphQLObjectType({
             resolve: () => {
                 return courses;
             }
+        },
+        teachers: {
+            type: new GraphQLList(TeacherType),
+            resolve: () => {
+                return teachers;
+            }
         }
     }
 })
+
 
 const schema = new GraphQLSchema({
     query: RootQuery,
