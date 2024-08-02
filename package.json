@@ -1,0 +1,28 @@
+{
+  "name": "graphql",
+  "version": "1.0.0",
+  "description": "My first project with graphql",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemode app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohsen-ziadi/Node.js--GraphQL-project.git"
+  },
+  "keywords": [
+    "graphql"
+  ],
+  "author": "mohsen ziadi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohsen-ziadi/Node.js--GraphQL-project/issues"
+  },
+  "homepage": "https://github.com/mohsen-ziadi/Node.js--GraphQL-project#readme",
+  "dependencies": {
+    "graphql": "^16.9.0",
+    "graphql-http": "^1.22.1",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.2"
+  }
+}
