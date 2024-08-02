@@ -1,12 +1,12 @@
 // ObjectType - Query - mutation
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt } = require("graphql");
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt, Source } = require("graphql");
 
 const courses = [
-    { id: "1", title: "java script", price: 0 },
-    { id: "2", title: "React.js", price: 4_800_000 },
-    { id: "3", title: "Node.js", price: 5_600_000 },
-    { id: "4", title: "MySql", price: 2_300_000 },
+    { id: "1", title: "java script", price: 0, teacherId: "1" },
+    { id: "2", title: "React.js", price: 4_800_000, teacherId: "1" },
+    { id: "3", title: "Node.js", price: 5_600_000, teacherId: "2" },
+    { id: "4", title: "MySql", price: 2_300_000, teacherId: "3" },
 ]
 
 const teachers = [
@@ -23,6 +23,14 @@ const CourseType = new GraphQLObjectType({
         id: { type: GraphQLString },
         title: { type: GraphQLString },
         price: { type: GraphQLString },
+        teacher: {
+            type: TeacherType,
+            resolve: (parent) => {
+                return teachers.find(
+                    (teacher) => teacher.id === parent.teacherId
+                )
+            }
+        },
     })
 })
 
@@ -32,6 +40,14 @@ const TeacherType = new GraphQLObjectType({
         id: { type: GraphQLString },
         name: { type: GraphQLString },
         age: { type: GraphQLInt },
+        courses:{
+            type: new GraphQLList(CourseType),
+            resolve:(parent) =>{
+                return courses.filter(
+                    (course) => course.teacherId === parent.id
+                )
+            }
+        }
     })
 })
 
