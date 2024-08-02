@@ -1,9 +1,10 @@
 const express = require('express')
 const { createHandler } = require('graphql-http/lib/use/express');
+const schema = require('./graphql/schema')
 
 const app = express();
 
-app.use("/graphql", createHandler({}))
+app.use("/graphql", createHandler({schema}))
 
 app.get("/",(req,res)=>{
     return res.json({message:"Hello from main !!!"})
