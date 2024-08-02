@@ -1,26 +1,13 @@
 // ObjectType - Query - mutation
 
 const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt, Source } = require("graphql");
-
-const courses = [
-    { id: "1", title: "java script", price: 0, teacherId: "1" },
-    { id: "2", title: "React.js", price: 4_800_000, teacherId: "1" },
-    { id: "3", title: "Node.js", price: 5_600_000, teacherId: "2" },
-    { id: "4", title: "MySql", price: 2_300_000, teacherId: "3" },
-]
-
-const teachers = [
-    { id: "1", name: "Ali hossein", age: 23 },
-    { id: "2", name: "Meysam", age: 22 },
-    { id: "3", name: "Mohsen", age: 22 },
-    { id: "4", name: "Mehdi", age: 23 },
-]
-
+const CourseModel = require("../models/Course")
+const TeacherModel = require("../models/Teacher")
 
 const CourseType = new GraphQLObjectType({
     name: "Course",
     fields: () => ({
-        id: { type: GraphQLString },
+        _id: { type: GraphQLString },
         title: { type: GraphQLString },
         price: { type: GraphQLString },
         teacher: {
@@ -37,7 +24,7 @@ const CourseType = new GraphQLObjectType({
 const TeacherType = new GraphQLObjectType({
     name: "Teacher",
     fields: () => ({
-        id: { type: GraphQLString },
+        _id: { type: GraphQLString },
         name: { type: GraphQLString },
         age: { type: GraphQLInt },
         courses:{
@@ -56,14 +43,14 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         courses: {
             type: new GraphQLList(CourseType),
-            resolve: () => {
-                return courses;
+            resolve: async () => {
+                return await CourseModel.find({});
             }
         },
         teachers: {
             type: new GraphQLList(TeacherType),
-            resolve: () => {
-                return teachers;
+            resolve: async () => {
+                return await TeacherModel.find({});
             }
         },
         teacher: {
