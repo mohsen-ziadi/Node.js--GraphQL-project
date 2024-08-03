@@ -1,6 +1,6 @@
 // ObjectType - Query - mutation
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt, Source, GraphQLID } = require("graphql");
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt, Source, GraphQLID, GraphQLNonNull } = require("graphql");
 const CourseModel = require("../models/Course")
 const TeacherModel = require("../models/Teacher")
 
@@ -31,7 +31,7 @@ const TeacherType = new GraphQLObjectType({
                 // return courses.filter(
                 //     (course) => course.teacherId === parent.id
                 // )
-                return await CourseModel.find({teacher:parent._id})
+                return await CourseModel.find({ teacher: parent._id })
             }
         }
     })
@@ -79,8 +79,8 @@ const RootMutation = new GraphQLObjectType({
         addTeacher: {
             type: TeacherType,
             args: {
-                name: { type: GraphQLString },
-                age: { type: GraphQLInt },
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                age: { type: new GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (parent, args) => {
                 const { name, age } = args;
@@ -91,9 +91,9 @@ const RootMutation = new GraphQLObjectType({
         addCourse: {
             type: CourseType,
             args: {
-                title: { type: GraphQLString },
-                price: { type: GraphQLString },
-                teacher: { type: GraphQLID },
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                price: { type: new GraphQLNonNull(GraphQLString) },
+                teacher: { type: new GraphQLNonNull(GraphQLID) },
             },
             resolve: async (parent, args) => {
                 const { title, price, teacher } = args;
