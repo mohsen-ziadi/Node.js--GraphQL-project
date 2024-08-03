@@ -12,8 +12,8 @@ const CourseType = new GraphQLObjectType({
         price: { type: GraphQLString },
         teacher: {
             type: TeacherType,
-            resolve: (parent) => {
-                return TeacherModel.findOne({_id:parent.teacher})
+            resolve: async (parent) => {
+                return await TeacherModel.findOne({ _id: parent.teacher })
             }
         },
     })
@@ -27,10 +27,11 @@ const TeacherType = new GraphQLObjectType({
         age: { type: GraphQLInt },
         courses: {
             type: new GraphQLList(CourseType),
-            resolve: (parent) => {
-                return courses.filter(
-                    (course) => course.teacherId === parent.id
-                )
+            resolve: async (parent) => {
+                // return courses.filter(
+                //     (course) => course.teacherId === parent.id
+                // )
+                return await CourseModel.find({teacher:parent._id})
             }
         }
     })
