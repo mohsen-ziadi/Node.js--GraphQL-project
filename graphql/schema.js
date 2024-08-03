@@ -1,6 +1,6 @@
 // ObjectType - Query - mutation
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt, Source } = require("graphql");
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList, GraphQLInt, Source, GraphQLID } = require("graphql");
 const CourseModel = require("../models/Course")
 const TeacherModel = require("../models/Teacher")
 
@@ -27,9 +27,9 @@ const TeacherType = new GraphQLObjectType({
         _id: { type: GraphQLString },
         name: { type: GraphQLString },
         age: { type: GraphQLInt },
-        courses:{
+        courses: {
             type: new GraphQLList(CourseType),
-            resolve:(parent) =>{
+            resolve: (parent) => {
                 return courses.filter(
                     (course) => course.teacherId === parent.id
                 )
@@ -74,9 +74,26 @@ const RootQuery = new GraphQLObjectType({
     }
 })
 
+const RootMutation = new GraphQLObjectType({
+    name: 'RootMutation',
+    fields: {
+        addTeacher: {
+            type: TeacherType,
+            args: {
+                name: { type: GraphQLString },
+                age: { type: GraphQLInt },
+            },
+            resolve: async (parent, args) => {
+                const { name, age } = args;
+                return await TeacherModel.create({ name, age });
+            }
+        }
+    }
+})
 
 const schema = new GraphQLSchema({
     query: RootQuery,
+    mutation: RootMutation
 })
 
 module.exports = schema;
