@@ -13,9 +13,7 @@ const CourseType = new GraphQLObjectType({
         teacher: {
             type: TeacherType,
             resolve: (parent) => {
-                return teachers.find(
-                    (teacher) => teacher.id === parent.teacherId
-                )
+                return TeacherModel.findOne({_id:parent.teacher})
             }
         },
     })
