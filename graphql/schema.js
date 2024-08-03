@@ -87,6 +87,19 @@ const RootMutation = new GraphQLObjectType({
                 const { name, age } = args;
                 return await TeacherModel.create({ name, age });
             }
+        },
+
+        addCourse: {
+            type: CourseType,
+            args: {
+                title: { type: GraphQLString },
+                price: { type: GraphQLString },
+                teacher: { type: GraphQLID },
+            },
+            resolve: async (parent, args) => {
+                const { title, price, teacher } = args;
+                return await CourseModel.create({ title, price, teacher });
+            }
         }
     }
 })
